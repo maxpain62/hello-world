@@ -9,7 +9,7 @@ spec:
   serviceAccountName: jenkins
   containers:
     - name: maven
-      image: maxpain62/ubuntu-24.04:jdk-21-maven-3.8.6
+      image: maxpain62/ubuntu24:jdk11-maven3.8.6
       imagePullPolicy: Always
       command:
         - cat
