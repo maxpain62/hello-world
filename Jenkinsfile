@@ -41,6 +41,8 @@ spec:
                     echo "===== Maven & Java Versions ====="
                     mvn -version
                     java -version
+                    openssl version
+                    java -jar /usr/share/maven/lib/maven-artifact-*.jar org.apache.maven.wagon.providers.http.HttpWagon -Djavax.net.debug=ssl,handshake https://repo.maven.apache.org/maven2/
                     echo "===== Building Project ====="
                 '''
             }
