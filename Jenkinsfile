@@ -53,6 +53,11 @@ spec:
                 '''
             }
         }
+        stage ('build') {
+            container ('maven') {
+                sh 'mvn clean package'
+            }
+        }
         echo "✅ Pipeline completed successfully inside K8s Pod"
     }
 }
