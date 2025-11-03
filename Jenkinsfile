@@ -42,7 +42,6 @@ spec:
                     mvn -version
                     java -version
                     openssl version
-                    java -jar /usr/share/maven/lib/maven-artifact-*.jar org.apache.maven.wagon.providers.http.HttpWagon -Djavax.net.debug=ssl,handshake https://repo.maven.apache.org/maven2/
                     echo "===== Building Project ====="
                 '''
             }
@@ -50,6 +49,8 @@ spec:
         stage ('check maven access') {
             container ('maven') {
                 sh '''
+                mvn -version
+                java -version
                 echo "Checking network access..."
                 curl -v https://repo.maven.apache.org/maven2/
                 '''
