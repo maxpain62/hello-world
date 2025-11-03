@@ -51,8 +51,6 @@ spec:
                 sh '''
                 mvn -version
                 java -version
-                echo "Checking network access..."
-                curl -v https://repo.maven.apache.org/maven2/
                 '''
             }
         }
