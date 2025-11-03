@@ -44,9 +44,12 @@ spec:
                 '''
             }
         }
-        stage ('build project') {
+        stage ('check maven access') {
             container ('maven') {
-                sh 'mvn clean package'
+                sh '''
+                echo "Checking network access..."
+                curl -v https://repo.maven.apache.org/maven2/
+                '''
             }
         }
         echo "✅ Pipeline completed successfully inside K8s Pod"
