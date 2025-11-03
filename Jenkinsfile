@@ -29,6 +29,7 @@ spec:
     node(POD_LABEL) {
         stage('Checkout Source') {
             echo "Running on node: ${env.NODE_NAME}"
+            echo "value of POD_LABEL is: ${env.POD_LABEL}"
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
         }
