@@ -34,7 +34,7 @@ spec:
             sh 'ls -l'
         }
 
-        stage('Build with Maven') {
+        stage('validate java and maven') {
             container('maven') {
                 sh '''
                     echo "===== Maven & Java Versions ====="
@@ -42,6 +42,11 @@ spec:
                     java -version
                     echo "===== Building Project ====="
                 '''
+            }
+        }
+        stage ('build project') {
+            container ('maven') {
+                sh 'mvn clean package'
             }
         }
         echo "✅ Pipeline completed successfully inside K8s Pod"
