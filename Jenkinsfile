@@ -32,27 +32,6 @@ spec:
             echo "Running on node: ${env.NODE_NAME}"
             echo "value of POD_LABEL is: ${env.POD_LABEL}"
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
-            sh 'ls -l'
-        }
-
-        stage('validate java and maven') {
-            container('maven') {
-                sh '''
-                    echo "===== Maven & Java Versions ====="
-                    mvn -version
-                    java -version
-                    openssl version
-                    echo "===== Building Project ====="
-                '''
-            }
-        }
-        stage ('check maven access') {
-            container ('maven') {
-                sh '''
-                mvn -version
-                java -version
-                '''
-            }
         }
         stage ('build') {
             container ('maven') {
