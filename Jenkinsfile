@@ -12,7 +12,7 @@ spec:
       image: amazon/aws-cli
       command:
         - sleep 
-        - 180s
+        - 240s
       tty: true
       volumeMounts:
         - name: maven-cache
@@ -59,6 +59,8 @@ spec:
                   cp settings.xml /root/.m2/settings.xml
                   TOKEN=$(cat /root/.m2/token.txt)
                   sed "s|replace_me|$TOKEN|" settings-template.xml > /root/.m2/settings.xml
+                  cat /root/.m2/settings.xml
+                  sleep 10s
                   mvn clean deploy
                '''
           }
