@@ -13,7 +13,7 @@ spec:
       command:
         - /bin/sh
         - -c
-        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /token.txt && cat /token.txt
+        - cat
     - name: maven
       image: maxpain62/maven-3.9:jre11
       imagePullPolicy: Always
@@ -37,6 +37,19 @@ spec:
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/yankils/hello-world.git'
         }
-        echo "✅ Pipeline completed successfully inside K8s Pod"
+        stage ('read token.txt file') {
+          container ('aws') {
+            sh ''' 
+               aws codeartifact get-authorization-token \
+                   --domain test 
+                   --domain-owner 134448505602 
+                   --region ap-south-1 
+                   --query authorizationToken 
+                   --output text > /token.txt &&\ 
+                   cat /token.txt && \
+                   cat /token.txt
+               '''
+          }
+        }
     }
 }
