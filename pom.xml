@@ -27,6 +27,12 @@
       <name>Test Project Site</name>
       <url>file:///tmp/maven-project-site</url>
     </site>
+    
+    <repository>
+      <id>test-hello-world</id>
+      <name>test-hello-world</name>
+      <url>https://test-134448505602.d.codeartifact.ap-south-1.amazonaws.com/maven/hello-world/</url>
+    </repository>
   </distributionManagement>
 
   <build>
