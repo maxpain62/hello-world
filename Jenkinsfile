@@ -14,7 +14,7 @@ spec:
       command:
         - /bin/sh
         - -c
-        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > token.txt && cat token.txt
+        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
       resources:
         limits:
           memory: "100Mi"
@@ -48,10 +48,9 @@ spec:
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             ls -l
         }
-        stage ('unstash token') {
+        stage ('read token') {
           container ('maven') {
-            unstash 'token.txt'
-            sh 'CODEARTIFACT_AUTH_TOKEN=$(cat token.txt) && export $CODEARTIFACT_AUTH_TOKEN && echo $CODEARTIFACT_AUTH_TOKEN'
+            sh 'CODEARTIFACT_AUTH_TOKEN=$(cat /root/.m2/token.txt) && echo $CODEARTIFACT_AUTH_TOKEN'
           }
         }
         stage ('build') {
