@@ -45,8 +45,7 @@ spec:
         stage('Checkout Source') {
             echo "Running on node: ${env.NODE_NAME}"
             echo "value of POD_LABEL is: ${env.POD_LABEL}"
-            git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
-            ls -l
+            git branch: 'master', url: 'https://github.com/yankils/hello-world.git'
         }
         echo "✅ Pipeline completed successfully inside K8s Pod"
     }
