@@ -55,8 +55,10 @@ spec:
         }
         stage ('build') {
           container ('maven') {
-            sh '''CODEARTIFACT_AUTH_TOKEN=$(cat /root/.m2/token.txt) && echo $CODEARTIFACT_AUTH_TOKEN
+            sh '''
                   cp settings.xml /root/.m2/settings.xml
+                  TOKEN=$(cat /root/.m2/token.txt)
+                  sed "s|REPLACE_ME|$TOKEN|" scripts/settings-template.xml > /root/.m2/settings.xml
                   mvn clean deploy
                '''
           }
