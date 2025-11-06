@@ -8,20 +8,6 @@ metadata:
 spec:
   serviceAccountName: code-artifact-sa
   containers:
-    - name: aws-container
-      image: amazon/aws-cli
-      imagePullPolicy: Always
-      command:
-        - /bin/sh
-        - -c
-        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
-      resources:
-        limits:
-          memory: "100Mi"
-          cpu: "150m"
-      volumeMounts:
-        - name: maven-cache
-          mountPath: /root/.m2
     - name: maven
       image: maxpain62/maven-3.9:jre11
       imagePullPolicy: Always
@@ -43,8 +29,6 @@ spec:
 
     node(POD_LABEL) {
         stage('Checkout Source') {
-            echo "Running on node: ${env.NODE_NAME}"
-            echo "value of POD_LABEL is: ${env.POD_LABEL}"
             git branch: 'master', url: 'https://github.com/yankils/hello-world.git'
         }
         echo "✅ Pipeline completed successfully inside K8s Pod"
