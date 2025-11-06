@@ -54,7 +54,7 @@ spec:
         }
         stage ('dummy build') {
           container ('maven') {
-            sh 'CODEARTIFACT_AUTH_TOKEN=$(cat /root/.m2/token.txt)'
+            sh 'CODEARTIFACT_AUTH_TOKEN=$(cat /root/.m2/token.txt) && echo $CODEARTIFACT_AUTH_TOKEN'
           }
         }
     }
