@@ -11,8 +11,7 @@ spec:
     - name: aws
       image: amazon/aws-cli
       command:
-        - sleep 
-        - 480s
+        - cat
       tty: true
       volumeMounts:
         - name: maven-cache
