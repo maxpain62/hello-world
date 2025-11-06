@@ -39,7 +39,7 @@ spec:
     node(POD_LABEL) {
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
-            ls -l
+            sh 'ls -l'
         }
         stage ('read token.txt file') {
           container('aws') {
