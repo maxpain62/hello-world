@@ -11,7 +11,8 @@ spec:
     - name: aws
       image: amazon/aws-cli
       command:
-        - sleep 180s
+        - sleep 
+        - 180s
       tty: true
     - name: maven
       image: maxpain62/maven-3.9:jre11
