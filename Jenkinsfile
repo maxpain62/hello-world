@@ -18,7 +18,7 @@ spec:
         - name: maven-cache
           mountPath: /root/.m2
     - name: maven
-      image: maxpain62/maven-3.9:jre11
+      image: maxpain62/maven-3.9:jdk12
       imagePullPolicy: Always
       command:
         - cat
