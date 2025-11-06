@@ -46,7 +46,7 @@ spec:
         }
         stage ('aws code artifact token') {
           container ('aws-container') {
-            sh 'aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text'
+            sh 'aws --version'
             stash includes: '/token.txt', name: 'token.txt'
           }
         }
