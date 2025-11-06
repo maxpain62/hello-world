@@ -5,7 +5,7 @@
    <server>
      <id>test-hello-world</id>
      <username>aws</username>
-     <password>${env.CODEARTIFACT_AUTH_TOKEN}</password>
+     <password>replace</password>
    </server>
   </servers>
 
@@ -23,5 +23,5 @@
      </repositories>
    </profile>
  </profiles>
- 
+
 </settings>
