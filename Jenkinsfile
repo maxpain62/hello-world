@@ -12,6 +12,7 @@ spec:
       image: amazon/aws-cli
       command:
         - cat
+      tty: true
     - name: maven
       image: maxpain62/maven-3.9:jre11
       imagePullPolicy: Always
