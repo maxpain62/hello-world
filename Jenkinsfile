@@ -11,8 +11,6 @@ spec:
     - name: aws
       image: amazon/aws-cli
       command:
-        - /bin/sh
-        - -c
         - cat
     - name: maven
       image: maxpain62/maven-3.9:jre11
