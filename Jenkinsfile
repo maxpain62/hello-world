@@ -48,12 +48,6 @@ spec:
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             ls -l
         }
-        stage ('aws code artifact token') {
-          container ('aws-container') {
-            sh 'aws --version'
-            stash includes: '/token.txt', name: 'token.txt'
-          }
-        }
         stage ('unstash token') {
           container ('maven') {
             unstash 'token.txt'
