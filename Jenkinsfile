@@ -38,16 +38,18 @@ spec:
             git branch: 'master', url: 'https://github.com/yankils/hello-world.git'
         }
         stage ('read token.txt file') {
-          container ('aws') {
-            sh ''' 
-               aws codeartifact get-authorization-token \
-                   --domain test \ 
-                   --domain-owner 134448505602 \
-                   --region ap-south-1 \
-                   --query authorizationToken \
-                   --output text > /token.txt && cat /token.txt
-               '''
-          }
+          container('aws') {
+                sh '''
+                    aws codeartifact get-authorization-token \
+                        --domain test \
+                        --domain-owner 134448505602 \
+                        --region ap-south-1 \
+                        --query authorizationToken \
+                        --output text > /token.txt
+
+                    cat /token.txt
+                '''
+            }
         }
     }
 }
