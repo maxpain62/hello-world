@@ -38,7 +38,7 @@ spec:
 
     node(POD_LABEL) {
         stage('Checkout Source') {
-            git branch: 'master', url: 'https://github.com/yankils/hello-world.git'
+            git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
         }
         stage ('read token.txt file') {
           container('aws') {
