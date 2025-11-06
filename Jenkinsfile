@@ -45,9 +45,8 @@ spec:
                    --domain-owner 134448505602 
                    --region ap-south-1 
                    --query authorizationToken 
-                   --output text > /token.txt &&\ 
-                   cat /token.txt && \
-                   cat /token.txt
+                   --output text > /token.txt && \ 
+                   cat /token.txt &&
                '''
           }
         }
