@@ -1,0 +1,27 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <servers>
+   <server>
+     <id>test-hello-world</id>
+     <username>aws</username>
+     <password>replace_me</password>
+   </server>
+  </servers>
+
+  <profiles>
+   <profile>
+     <id>test-hello-world</id>
+     <activation>
+       <activeByDefault>true</activeByDefault>
+     </activation>
+     <repositories>
+       <repository>
+         <id>test-hello-world</id>
+         <url>https://test-134448505602.d.codeartifact.ap-south-1.amazonaws.com/maven/hello-world/</url>
+       </repository>
+     </repositories>
+   </profile>
+ </profiles>
+
+</settings>
