@@ -53,11 +53,11 @@ spec:
                 '''
             }
         }
-        stage ('dummy build') {
+        stage ('build') {
           container ('maven') {
             sh '''CODEARTIFACT_AUTH_TOKEN=$(cat /root/.m2/token.txt) && echo $CODEARTIFACT_AUTH_TOKEN
-               cp settings.xml /root/.m2/settings.xml
-               
+                  cp settings.xml /root/.m2/settings.xml
+                  mvn clean deploy
                '''
           }
         }
