@@ -8,6 +8,12 @@ metadata:
 spec:
   serviceAccountName: code-artifact-sa
   containers:
+    - name: aws
+      image: amazon/aws-cli
+      command:
+        - /bin/sh
+        - -c
+        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /token.txt && cat /token.txt
     - name: maven
       image: maxpain62/maven-3.9:jre11
       imagePullPolicy: Always
