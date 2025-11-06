@@ -58,7 +58,7 @@ spec:
             sh '''
                   cp settings.xml /root/.m2/settings.xml
                   TOKEN=$(cat /root/.m2/token.txt)
-                  sed "s|REPLACE_ME|$TOKEN|" scripts/settings-template.xml > /root/.m2/settings.xml
+                  sed "s|replace_me|$TOKEN|" settings-template.xml > /root/.m2/settings.xml
                   mvn clean deploy
                '''
           }
