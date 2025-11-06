@@ -14,7 +14,8 @@ spec:
       command:
         - /bin/sh
         - -c
-        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1
+        - CODEARTIFACT_AUTH_TOKEN=aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text
+        - export $CODEARTIFACT_AUTH_TOKEN && echo $CODEARTIFACT_AUTH_TOKEN > /token.txt && cat token.txt
       resources:
         limits:
           memory: "100Mi"
