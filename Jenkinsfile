@@ -24,8 +24,8 @@ spec:
       tty: true
       resources:
         limits:
-          memory: "200Mi"
-          cpu: "150m"
+          memory: "500Mi"
+          cpu: "250m"
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
