@@ -7,7 +7,6 @@ metadata:
     app: maven-build
 spec:
   serviceAccountName: code-artifact-sa
-  initContainer:
   containers:
     - name: aws-container
       image: amazon/aws-cli
@@ -47,7 +46,7 @@ spec:
         }
         stage ('aws code artifact token') {
           container ('aws-container') {
-            sh 'export CODEARTIFACT_AUTH_TOKEN=aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text && echo $CODEARTIFACT_AUTH_TOKEN > /token.txt'
+            sh 'CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text) && export CODEARTIFACT_AUTH_TOKEN && echo $CODEARTIFACT_AUTH_TOKEN > /token.txt'
             stash includes: '/token.txt', name: 'token.txt'
           }
         }
