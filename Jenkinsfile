@@ -11,6 +11,10 @@ spec:
     - name: aws-container
       image: amazon/aws-cli
       imagePullPolicy: Always
+      command:
+        - /bin/sh
+        - -c
+        - aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1
       resources:
         limits:
           memory: "100Mi"
