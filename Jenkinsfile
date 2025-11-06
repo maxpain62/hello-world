@@ -48,17 +48,6 @@ spec:
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             ls -l
         }
-        stage ('read token') {
-          container ('maven') {
-            sh 'CODEARTIFACT_AUTH_TOKEN=$(cat /root/.m2/token.txt) && echo $CODEARTIFACT_AUTH_TOKEN'
-          }
-        }
-        stage ('build') {
-            container ('maven') {
-                sh 'mvn clean install'
-                stash includes: 'webapp/target/webapp.war', name: 'webapp.war'
-            }
-        }
         echo "✅ Pipeline completed successfully inside K8s Pod"
     }
 }
