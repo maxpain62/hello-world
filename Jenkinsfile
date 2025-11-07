@@ -9,7 +9,7 @@ spec:
   serviceAccountName: code-artifact-sa
   containers:
     - name: aws
-      image: amazon/aws-cli
+      image: maxpain62/docker-awscli2.0:1.0.0
       command:
         - cat
       tty: true
@@ -57,6 +57,13 @@ spec:
                   sleep 5s
                   mvn clean deploy
                '''
+            stash includes: '/target/**/*.war', name: 'webapp.war'
+          }
+        }
+        stage ('docker image creation') {
+          container ('aws') {
+            unstash 'webapp.war'
+            sh 'ls -l'
           }
         }
     }
