@@ -57,7 +57,9 @@ spec:
                   cat /root/.m2/settings.xml
                   sleep 5s
                   mvn clean deploy
-                  ls -l
+                  pwd
+                  ls -l webapp/
+                  ls -l webapp/target/
                   sleep 5s
                '''
             stash includes: '/target/*.war', name: 'webapp.war'
