@@ -36,13 +36,11 @@ spec:
 ) {
 
     node(POD_LABEL) {
-        def myVar = ''
+        def myVar = 'initval'
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
-            script {
-              myVar = $(git tag --sort=-creatordate | head -1)
-            }
+            echo $myVar
         }
         stage ('read token.txt file') {
           container('aws') {
