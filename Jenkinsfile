@@ -36,7 +36,7 @@ spec:
 ) {
 
     node(POD_LABEL) {
-        def LATEST_TAG = ''
+        def myVar = ''
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
