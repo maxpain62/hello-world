@@ -36,11 +36,19 @@ spec:
 ) {
 
     node(POD_LABEL) {
-        def myVar = 'initval'
+        
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
-            echo ${myVar}
+        }
+        stage('Get Latest Tag') {
+        script {
+            env.LATEST_TAG = sh(
+                script: "git tag --sort=-creatordate | head -1",
+                returnStdout: true
+            ).trim()
+        }
+        echo "Latest Tag = ${env.LATEST_TAG}"
         }
         stage ('read token.txt file') {
           container('aws') {
