@@ -36,9 +36,11 @@ spec:
 ) {
 
     node(POD_LABEL) {
+        env.LATEST_TAG="hello world"
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
+            echo $LATEST_TAG
         }
         stage ('read token.txt file') {
           container('aws') {
