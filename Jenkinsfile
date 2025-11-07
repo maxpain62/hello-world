@@ -40,7 +40,7 @@ spec:
         stage('Checkout Source') {
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
-            echo $myVar
+            echo ${myVar}
         }
         stage ('read token.txt file') {
           container('aws') {
