@@ -43,7 +43,8 @@ spec:
         stage ('read token.txt file') {
           container('aws') {
                 sh '''
-                    aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
+                    aws -version
+                    #aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
                 '''
             }
         }
