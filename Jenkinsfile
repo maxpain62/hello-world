@@ -57,8 +57,10 @@ spec:
                   cat /root/.m2/settings.xml
                   sleep 5s
                   mvn clean deploy
+                  ls -l
+                  sleep 5s
                '''
-            stash includes: '/target/**/*.war', name: 'webapp.war'
+            stash includes: '/target/*.war', name: 'webapp.war'
           }
         }
         stage ('docker image creation') {
