@@ -41,7 +41,7 @@ spec:
             git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
             sh 'ls -l'
             script {
-              myVar = git tag --sort=-creatordate | head -1
+              myVar = $(git tag --sort=-creatordate | head -1)
             }
         }
         stage ('read token.txt file') {
