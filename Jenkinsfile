@@ -62,7 +62,7 @@ spec:
                   ls -l webapp/target/
                   sleep 5s
                '''
-            stash includes: '**/target/*.war', name: 'webapp.war'
+            stash includes: 'webapp/target/*.war', name: 'webapp.war'
           }
         }
         stage ('docker image creation') {
