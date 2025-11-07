@@ -51,7 +51,7 @@ spec:
           container ('maven') {
             sh '''
                   cp settings.xml /root/.m2/settings.xml
-                  TOKEN=$(cat /root/.m2/token.txt)
+                  export TOKEN=$(cat /root/.m2/token.txt)
                   sed "s|replace_me|$TOKEN|" settings-template.xml > /root/.m2/settings.xml
                   cat /root/.m2/settings.xml
                   sleep 5s
