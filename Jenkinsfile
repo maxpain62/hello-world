@@ -75,7 +75,7 @@ spec:
         stage ('download artifact') {
           container ('aws') {
             sh '''
-              echo ${env.LATEST_TAG}
+              echo "${env.LATEST_TAG}"
               #aws codeartifact get-package-version-asset --domain test --domain-owner 134448505602 --repository hello-world \
                 --format maven --namespace com.example.maven-project --package --package-version ${env.LATEST_TAG} --asset webapp-${env.LATEST_TAG}.war
                '''
