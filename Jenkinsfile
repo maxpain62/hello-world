@@ -103,15 +103,14 @@ spec:
               --asset webapp-${env.LATEST_TAG}.war webapp-${env.LATEST_TAG}.war
 
               ls -l
+              sed "s|VERSION|${env.LATEST_TAG}|" Dockerfile
+              cat  Dockerfile
                """
             }
         }
         stage ('create docker image') {
           container ('kaniko') {
             sh """
-              sed "s|VERSION|${env.LATEST_TAG}|" Dockerfile
-              cat  Dockerfile
-
               /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} --force
                """
             }
