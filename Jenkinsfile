@@ -16,6 +16,8 @@ spec:
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
+        - name: docker
+          mountPath: /var/run/docker.sock
     - name: maven
       image: maxpain62/maven-3.9:jdk12
       imagePullPolicy: Always
@@ -32,6 +34,9 @@ spec:
   volumes:
     - name: maven-cache
       emptyDir: {}
+    - name: docker
+      hostPath: 
+        path: /var/run/docker.sock
 """
 ) {
 
@@ -50,10 +55,22 @@ spec:
         }
         echo "Latest Tag = ${env.LATEST_TAG}"
         }
-        stage ('print tag') {
+        stage ('read token.txt file') {
+          container ('aws') {
+                sh '''
+                    aws --version
+                    aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
+                '''
+            }
+        }
+        stage ('build') {
           container ('maven') {
-            echo "Latest Tag = ${env.LATEST_TAG}"
-          }
+            sh '''
+              cp settings.xml /root/.m2/settings.xml && export TOKEN=$(cat /root/.m2/token.txt)
+              sed "s|replace_me|$TOKEN|" settings-template.xml > /root/.m2/settings.xml
+              mvn clean deploy
+               '''
+            }
         }
     }
 }
