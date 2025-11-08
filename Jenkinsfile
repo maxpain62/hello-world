@@ -123,10 +123,7 @@ spec:
         stage ('create docker image') {
           container ('tools') {
             sh """
-              /kaniko/executor --context `pwd` \
-              --dockerfile Dockerfile \ 
-              --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} \
-              --force
+              /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} --force
                """
             }
         }
