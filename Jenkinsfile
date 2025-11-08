@@ -9,15 +9,13 @@ spec:
   serviceAccountName: code-artifact-sa
   containers:
     - name: aws
-      image: maxpain62/docker-awscli2.0:1.0.0
+      image: amazon/aws-cli
       command:
         - cat
       tty: true
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
-        - name: docker
-          mountPath: /var/run/docker.sock
     - name: maven
       image: maxpain62/maven-3.9:jdk12
       imagePullPolicy: Always
@@ -31,12 +29,22 @@ spec:
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:latest
+      args: ["--sleep"]
+      volumeMounts:
+        - name: ecr-config 
+          mountPath: /kaniko/.docker/config.json
+          readOnly: true
   volumes:
     - name: maven-cache
       emptyDir: {}
     - name: docker
       hostPath: 
-        path: /var/run/docker.sock
+        path: /var/run/
+    - name: ecr-config
+      secret:
+        secretName: ecr-secret
 """
 ) {
 
@@ -72,14 +80,38 @@ spec:
                '''
             }
         }*/
-        stage ('download artifact') {
+        /*stage ('download artifact') {
           container ('aws') {
-            sh '''
+            sh """
               echo "Latest Tag = ${env.LATEST_TAG}"
               echo "${env.LATEST_TAG}"
               #aws codeartifact get-package-version-asset --domain test --domain-owner 134448505602 --repository hello-world \
                 --format maven --namespace com.example.maven-project --package --package-version ${env.LATEST_TAG} --asset webapp-${env.LATEST_TAG}.war
-               '''
+               """
+          }
+        }*/
+        stage ('download artifact') {
+          container ('aws') {
+            sh """
+              echo "Latest Tag = ${LATEST_TAG}"
+              echo "${LATEST_TAG}"
+
+              aws codeartifact get-package-version-asset --domain test --domain-owner 134448505602 \
+              --repository hello-world --format maven --namespace com.example.maven-project \
+              --package webapp --package-version ${env.LATEST_TAG} \
+              --asset webapp-${env.LATEST_TAG}.war webapp-${env.LATEST_TAG}.war
+
+              ls -l
+               """
+            }
+        }
+        stage ('create docker image') {
+          container ('kaniko') {
+            sh """
+              sed "s|VERSION|${env.LATEST_TAG}|" Dockerfile
+              cat  Dockerfile
+
+               """
           }
         }
     }
