@@ -3,7 +3,7 @@ podTemplate(
 apiVersion: v1
 kind: Pod
 spec:
-  serviceAccountName: ecr-sa
+  serviceAccountName: code-artifact-sa
   containers:
 
     - name: aws
