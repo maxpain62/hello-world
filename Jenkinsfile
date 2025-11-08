@@ -43,24 +43,24 @@ spec:
     node(POD_LABEL) {
         
         stage('Checkout Source') {
-            git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
-            sh 'ls -l'
+          git branch: 'master', url: 'https://github.com/maxpain62/hello-world.git'
+          sh 'ls -l'
         }
         stage('Get Latest Tag') {
-        script {
+          script {
             env.LATEST_TAG = sh(
-                script: "git tag --sort=-creatordate | head -1",
-                returnStdout: true
+            script: "git tag --sort=-creatordate | head -1",
+            returnStdout: true
             ).trim()
-        }
+          }
         echo "Latest Tag = ${env.LATEST_TAG}"
         }
         stage ('read token.txt file') {
           container ('aws') {
-                sh '''
-                    aws --version
-                    aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
-                '''
+            sh '''
+              aws --version
+              aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
+               '''
             }
         }
         stage ('build') {
