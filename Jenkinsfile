@@ -121,7 +121,10 @@ spec:
         stage ('create docker image') {
           container ('tools') {
             sh """
-              sh 'mkdir -p /workspace && cp -r . /workspace'
+              cp -r . /workspace 
+              cd /workspace
+              ls -l
+              
               /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} --force
                """
             }
