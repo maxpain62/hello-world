@@ -112,7 +112,7 @@ spec:
               sed "s|VERSION|${env.LATEST_TAG}|" Dockerfile
               cat  Dockerfile
 
-              /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG}
+              /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} --force
                """
             }
         }
