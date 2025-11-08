@@ -31,7 +31,7 @@ spec:
           mountPath: /root/.m2
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
-      args: ["--sleep"]
+      args: ["cat"]
       volumeMounts:
         - name: ecr-config 
           mountPath: /kaniko/.docker/
@@ -111,6 +111,7 @@ spec:
               sed "s|VERSION|${env.LATEST_TAG}|" Dockerfile
               cat  Dockerfile
 
+              /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG}
                """
             }
         }
