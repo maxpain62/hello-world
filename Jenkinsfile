@@ -50,35 +50,9 @@ spec:
         }
         echo "Latest Tag = ${env.LATEST_TAG}"
         }
-        stage ('read token.txt file') {
-          container('aws') {
-                sh '''
-                    aws --version
-                    aws codeartifact get-authorization-token --domain test --domain-owner 134448505602 --region ap-south-1 --query authorizationToken --output text > /root/.m2/token.txt
-                '''
-            }
-        }
-        stage ('build') {
+        stage ('print tag') {
           container ('maven') {
-            sh '''
-                  cp settings.xml /root/.m2/settings.xml
-                  export TOKEN=$(cat /root/.m2/token.txt)
-                  sed "s|replace_me|$TOKEN|" settings-template.xml > /root/.m2/settings.xml
-                  cat /root/.m2/settings.xml
-                  sleep 5s
-                  mvn clean deploy
-                  pwd
-                  ls -l webapp/
-                  ls -l webapp/target/
-                  sleep 5s
-               '''
-            stash includes: 'webapp/target/*.war', name: 'webapp.war'
-          }
-        }
-        stage ('docker image creation') {
-          container ('aws') {
-            unstash 'webapp.war'
-            sh 'ls -l'
+            echo "Latest Tag = ${env.LATEST_TAG}"
           }
         }
     }
