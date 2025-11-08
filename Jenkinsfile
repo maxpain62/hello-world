@@ -34,7 +34,7 @@ spec:
       args: ["--sleep"]
       volumeMounts:
         - name: ecr-config 
-          mountPath: /kaniko/.docker/config.json
+          mountPath: /kaniko/.docker/
           readOnly: true
   volumes:
     - name: maven-cache
@@ -112,7 +112,7 @@ spec:
               cat  Dockerfile
 
                """
-          }
+            }
         }
     }
 }
