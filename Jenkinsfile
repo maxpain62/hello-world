@@ -1,63 +1,50 @@
 podTemplate(
-    yaml: """
+  yaml: """
 apiVersion: v1
 kind: Pod
-metadata:
-  labels:
-    app: maven-build
 spec:
-  serviceAccountName: code-artifact-sa
+  serviceAccountName: ecr-sa
   containers:
+
     - name: aws
       image: amazon/aws-cli
-      command:
-        - cat
+      command: ['cat']
       tty: true
-      volumeMounts:
-        - name: maven-cache
-          mountPath: /root/.m2
+      workingDir: /home/jenkins/agent/workspace/${JOB_NAME}
+
     - name: maven
       image: maxpain62/maven-3.9:jdk12
-      imagePullPolicy: Always
-      command:
-        - cat
+      command: ['cat']
       tty: true
-      resources:
-        limits:
-          memory: "500Mi"
-          cpu: "250m"
+      workingDir: /home/jenkins/agent/workspace/${JOB_NAME}
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
+
     - name: tools
       image: alpine:3.18
       command: ['sh', '-c']
       args: ['sleep 3600']
       tty: true
-      volumeMounts:
-        - name: workspace-volume
-          mountPath: /workspace
+      workingDir: /home/jenkins/agent/workspace/${JOB_NAME}
+
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
-      command: ["/kaniko/executor"]
-      args: ["--help"]
+      workingDir: /home/jenkins/agent/workspace/${JOB_NAME}
       volumeMounts:
-        - name: ecr-config 
+        - name: ecr-config
           mountPath: /kaniko/.docker/
           readOnly: true
+
   volumes:
     - name: maven-cache
       emptyDir: {}
-    - name: docker
-      hostPath: 
-        path: /var/run/
     - name: ecr-config
       secret:
         secretName: ecr-secret
-    - name: workspace-volume
-      emptyDir: {}
 """
-) {
+)
+ {
 
     node(POD_LABEL) {
         
@@ -121,10 +108,6 @@ spec:
         stage ('create docker image') {
           container ('tools') {
             sh """
-              cp -r . /workspace 
-              cd /workspace
-              ls -l
-              
               /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} --force
                """
             }
