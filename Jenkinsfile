@@ -29,8 +29,8 @@ spec:
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
-        - name: tools
-    - image: alpine:3.18
+    - name: tools
+      image: alpine:3.18
       command: ['sh', '-c']
       args: ['sleep 3600']
       tty: true
