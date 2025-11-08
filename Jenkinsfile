@@ -31,7 +31,8 @@ spec:
           mountPath: /root/.m2
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
-      args: ["cat"]
+      command: ["/kaniko/executor"]
+      args: ["--help"]
       volumeMounts:
         - name: ecr-config 
           mountPath: /kaniko/.docker/
