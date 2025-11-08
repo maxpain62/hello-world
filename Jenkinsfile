@@ -63,7 +63,7 @@ spec:
                '''
             }
         }
-        stage ('build') {
+        /*stage ('build') {
           container ('maven') {
             sh '''
               cp settings.xml /root/.m2/settings.xml && export TOKEN=$(cat /root/.m2/token.txt)
@@ -71,7 +71,7 @@ spec:
               mvn clean deploy
                '''
             }
-        }
+        }*/
         stage ('download artifact') {
           container ('aws') {
             sh '''
