@@ -29,6 +29,14 @@ spec:
       volumeMounts:
         - name: maven-cache
           mountPath: /root/.m2
+        - name: tools
+    - image: alpine:3.18
+      command: ['sh', '-c']
+      args: ['sleep 3600']
+      tty: true
+      volumeMounts:
+        - name: workspace-volume
+          mountPath: /workspace
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
       command: ["/kaniko/executor"]
@@ -37,6 +45,8 @@ spec:
         - name: ecr-config 
           mountPath: /kaniko/.docker/
           readOnly: true
+        - name: workspace-volume
+          mountPath: /workspace
   volumes:
     - name: maven-cache
       emptyDir: {}
@@ -46,6 +56,8 @@ spec:
     - name: ecr-config
       secret:
         secretName: ecr-secret
+    - name: workspace-volume
+      emptyDir: {}
 """
 ) {
 
@@ -109,9 +121,12 @@ spec:
             }
         }
         stage ('create docker image') {
-          container ('kaniko') {
+          container ('tools') {
             sh """
-              /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} --force
+              /kaniko/executor --context `pwd` \
+              --dockerfile Dockerfile \ 
+              --destination 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world:${LATEST_TAG} \
+              --force
                """
             }
         }
