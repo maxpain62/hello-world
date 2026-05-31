@@ -8,6 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
+  #build the application using maven
   build:
     runs-on: ubuntu-latest
 
@@ -24,3 +25,43 @@ jobs:
 
     - name: build with maven
       run: mvn clean install
+    
+  #containerize the application using docker
+  containerize:
+    runs-on: ubuntu-latest
+    #copy the war file from the build job to the containerize job
+    needs: build
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t hello-world-app .
+
+  # #push the docker image to aws ecr
+  # push-to-aws-ecr:
+  #   runs-on: ubuntu-latest
+  #   #copy the docker image from the containerize job to the push-to-aws-ecr job
+  #   needs: containerize
+
+  #   steps:
+  #   - name: checkout code
+  #     uses: actions/checkout@v2
+
+  #   - name: Configure AWS credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       #uses the aws access key and secret access key from the github secrets
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: ap-south-1
+
+  #   - name: Login to Amazon ECR
+  #     id: login-ecr
+  #     uses: aws-actions/amazon-ecr-login@v1
+
+  #   - name: Push Docker image to Amazon ECR
+  #     run: |
+  #       docker tag hello-world-app:latest <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/hello-world-app:latest
+  #       docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/hello-world-app:latest
