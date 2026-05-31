@@ -1,6 +1,9 @@
 #ci for hello world
 name: hello world CI
 
+permissions:
+    id-token: write
+    contents: read 
 on:
   push:
     branches: [ master ]
@@ -36,9 +39,6 @@ jobs:
     
   #containerize the application using docker
   containerize:
-    permissions:
-        id-token: write
-        contents: read 
 
     runs-on: ubuntu-latest
     #copy the war file from the build job to the containerize job
