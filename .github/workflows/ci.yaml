@@ -76,26 +76,25 @@ jobs:
     - name: get caller identity 1
       run: aws sts get-caller-identity
 
-    # - name: Configure AWS Credentials 2
-    #   uses: aws-actions/configure-aws-credentials@v6.1.0
-    #   with:
-    #     aws-region: ap-south-1
+    - name: Configure AWS Credentials 2
+      uses: aws-actions/configure-aws-credentials@v6.1.0
+      with:
+        aws-region: ap-south-1
     #     aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
-
     #     aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
-    #     role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
+        role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
 
-    # #login to amazon ecr using the aws credentials configured in the previous step
-    # - name: Login to Amazon ECR
-    #   id: login-ecr
-    #   uses: aws-actions/amazon-ecr-login@v2
+    #login to amazon ecr using the aws credentials configured in the previous step
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
 
-    # #push the docker image to amazon ecr
-    # - name: Push Docker image to Amazon ECR
-    #   env:
-    #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-    #     REPOSITORY: hello-world-app
-    #     IMAGE_TAG: latest
-    #   run: |
-    #     docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
-    #     docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+    #push the docker image to amazon ecr
+    - name: Push Docker image to Amazon ECR
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: hello-world-app
+        IMAGE_TAG: latest
+      run: |
+        docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
