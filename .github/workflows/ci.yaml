@@ -61,28 +61,15 @@ jobs:
       run: docker build -t hello-world-app .
 
     #configure the aws credentials to push the docker image to amazon ecr
-    - name: Configure AWS Credentials 1
-      id: creds
+    - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v6.1.0
       with:
-        #uses the aws access key and secret access key from the github secrets
-        #aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         audience: sts.amazonaws.com
-        role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
+        role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-action
         aws-region: ap-south-1
-        output-credentials: true
 
-    - name: get caller identity 1
+    - name: Get caller identity
       run: aws sts get-caller-identity
-
-    - name: Configure AWS Credentials 2
-      uses: aws-actions/configure-aws-credentials@v6.1.0
-      with:
-        aws-region: ap-south-1
-    #     aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
-    #     aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
-        role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
 
     #login to amazon ecr using the aws credentials configured in the previous step
     - name: Login to Amazon ECR
