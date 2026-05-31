@@ -25,7 +25,7 @@ jobs:
 
     - name: build with maven
       run: mvn clean install
-      
+
     #upload the war file as an artifact to be used in the containerize job
     - name: Upload WAR artifact
       uses: actions/upload-artifact@v4
@@ -43,7 +43,8 @@ jobs:
     steps:
     - name: checkout code
       uses: actions/checkout@v2
-
+    
+      #Download the war file from the build job
     - name: Download WAR artifact
       uses: actions/download-artifact@v5
       with:
@@ -53,29 +54,26 @@ jobs:
     - name: Build Docker image
       run: docker build -t hello-world-app .
 
-  # #push the docker image to aws ecr
-  # push-to-aws-ecr:
-  #   runs-on: ubuntu-latest
-  #   #copy the docker image from the containerize job to the push-to-aws-ecr job
-  #   needs: containerize
+    #configure the aws credentials to push the docker image to amazon ecr
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        #uses the aws access key and secret access key from the github secrets
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
 
-  #   steps:
-  #   - name: checkout code
-  #     uses: actions/checkout@v2
+    #login to amazon ecr using the aws credentials configured in the previous step
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
 
-  #   - name: Configure AWS credentials
-  #     uses: aws-actions/configure-aws-credentials@v1
-  #     with:
-  #       #uses the aws access key and secret access key from the github secrets
-  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #       aws-region: ap-south-1
-
-  #   - name: Login to Amazon ECR
-  #     id: login-ecr
-  #     uses: aws-actions/amazon-ecr-login@v1
-
-  #   - name: Push Docker image to Amazon ECR
-  #     run: |
-  #       docker tag hello-world-app:latest <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/hello-world-app:latest
-  #       docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/hello-world-app:latest
+    #push the docker image to amazon ecr
+    - name: Push Docker image to Amazon ECR
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: hello-world-app
+        IMAGE_TAG: latest
+      run: |
+        docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
