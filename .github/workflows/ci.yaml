@@ -36,6 +36,10 @@ jobs:
     
   #containerize the application using docker
   containerize:
+    permissions:
+        id-token: write
+        contents: read 
+
     runs-on: ubuntu-latest
     #copy the war file from the build job to the containerize job
     needs: build
@@ -55,40 +59,41 @@ jobs:
       run: docker build -t hello-world-app .
 
     #configure the aws credentials to push the docker image to amazon ecr
-    - name: Configure AWS credentials
+    - name: Configure AWS Credentials 1
       id: creds
-      uses: aws-actions/configure-aws-credentials@v4
+      uses: aws-actions/configure-aws-credentials@v6.1.0
       with:
         #uses the aws access key and secret access key from the github secrets
         #aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         audience: sts.amazonaws.com
         role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
-        role-session-name: github-actions-session
         aws-region: ap-south-1
         output-credentials: true
 
     - name: get caller identity 1
       run: aws sts get-caller-identity
 
-    - name: Configure AWS Credentials 2
-      uses: aws-actions/configure-aws-credentials@v6.1.0
-      with:
-        aws-region: ap-south-1
-        aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
-        role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
+    # - name: Configure AWS Credentials 2
+    #   uses: aws-actions/configure-aws-credentials@v6.1.0
+    #   with:
+    #     aws-region: ap-south-1
+    #     aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
 
-    #login to amazon ecr using the aws credentials configured in the previous step
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v2
+    #     aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
+    #     role-to-assume: arn:aws:iam::134448505602:role/hello-world-github-role
 
-    #push the docker image to amazon ecr
-    - name: Push Docker image to Amazon ECR
-      env:
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: hello-world-app
-        IMAGE_TAG: latest
-      run: |
-        docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+    # #login to amazon ecr using the aws credentials configured in the previous step
+    # - name: Login to Amazon ECR
+    #   id: login-ecr
+    #   uses: aws-actions/amazon-ecr-login@v2
+
+    # #push the docker image to amazon ecr
+    # - name: Push Docker image to Amazon ECR
+    #   env:
+    #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+    #     REPOSITORY: hello-world-app
+    #     IMAGE_TAG: latest
+    #   run: |
+    #     docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
+    #     docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
