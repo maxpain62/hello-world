@@ -69,5 +69,5 @@ jobs:
          REPOSITORY: hello-world-app
          IMAGE_TAG: ${{ env.VERSION }}
        run: |
-         docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
+         docker tag hello-world-app:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG
          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
