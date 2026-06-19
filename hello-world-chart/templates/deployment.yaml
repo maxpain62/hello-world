@@ -15,7 +15,7 @@ spec:
         {{- include "hello-world.labels" . | nindent 8 }}
     spec:
       containers:
-      - image: {{ .Values.containers.image }}
+      - image: {{ .Values.containers.image }}:{{ .Values.containers.tag }}
         imagePullPolicy: Always
         ports:
         - containerPort: {{ .Values.containers.ports.containerPort }}
