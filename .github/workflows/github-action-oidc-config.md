@@ -64,6 +64,7 @@
 ```
 
 ## Step 3 - Verify with below code block
+- Refer [ci.yaml](./ci.yaml) for pipeline code 
 - note - make sure value of _**role-to-assume**_ must match role arn we created in *step 2*
 ```
     - name: Configure AWS Credentials 1
