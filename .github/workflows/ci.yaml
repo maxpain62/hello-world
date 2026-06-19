@@ -16,7 +16,7 @@ jobs:
      steps:
       - name: checkout code
         run: |
-          git clone https://github.com/${{ github.repository }}.git && cd ${{ github.repository }} && git tag --list
+          git clone https://github.com/${{ github.repository }}.git && cd hello-world && git tag --list
         
   #   - name: checkout code
   #     uses: actions/checkout@v7
