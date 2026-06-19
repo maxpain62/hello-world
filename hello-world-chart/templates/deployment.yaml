@@ -1,18 +1,18 @@
 apiVersion: apps/v1 
 kind: Deployment
 metadata:
-  name: {{ .values.metadata.labels.app }}-deployment
+  name: {{ .Values.metadata.labels.app }}-deployment
   labels: 
     {{- include "hello-world.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      {{- include "hello-world.matchlabels" . | nindent 6 }}
+      {{- include "hello-world.labels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "hello-world.matchlabels" . | nindent 8 }}
+        {{- include "hello-world.labels" . | nindent 8 }}
     spec:
       containers:
       - image: {{ .Values.containers.image }}:{{ .Chart.AppVersion }}
