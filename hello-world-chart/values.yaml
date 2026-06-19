@@ -1,0 +1,12 @@
+replicas: 1
+
+metadata:
+  labels:
+    tier: frontend
+    app: hello-world-app
+    env: dev
+
+containers:
+  image: 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world-app
+  ports:
+    containerPort: 8080
