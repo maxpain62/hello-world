@@ -67,7 +67,7 @@ jobs:
        env:
          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
          REPOSITORY: hello-world-app
-         IMAGE_TAG: latest
+         IMAGE_TAG: ${{ env.VERSION }}
        run: |
-         docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:${{ env.VERSION }}
-         docker push $REGISTRY/$REPOSITORY:${{ env.VERSION }}
+         docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
+         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
