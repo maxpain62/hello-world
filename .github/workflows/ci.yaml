@@ -71,6 +71,3 @@ jobs:
        run: |
          docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:${{ env.VERSION }}
          docker push $REGISTRY/$REPOSITORY:${{ env.VERSION }}
-
-
-         
