@@ -81,7 +81,7 @@ jobs:
        run: |
         git config --global user.name "maxpain62"
         git config --global user.email "maxpain62@gmail.com"
-        git pull
+        git pull master
         git checkout -b master
         git add hello-world-chart/Chart.yaml
         git commit -m "Update Helm chart version to ${{ env.VERSION }}"
