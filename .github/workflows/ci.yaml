@@ -4,7 +4,6 @@ name: hello world CI
 
 on:
   push:
-    branches: [ master ]
     tags: 
       - 'v*.*.*'
 
@@ -20,6 +19,8 @@ jobs:
     steps:
      - name: checkout code
        uses: actions/checkout@v7
+       with:
+        token: ${{ secrets.TOKEN }}
 
      - name: Extract tag version
        id: VERSION
@@ -75,3 +76,11 @@ jobs:
      - name: Update Helm chart version
        run: |
          sed -i "s/^appVersion:.*/appVersion: \"${{ env.VERSION }}\"/" hello-world-chart/Chart.yaml
+
+     - name: Commit and push updated Helm chart
+       run: |
+        git config --global user.name "maxpain62"
+        git config --global user.email "maxpain62@gmail.com"
+        git add hello-world-chart/Chart.yaml
+        git commit -m "Update Helm chart version to ${{ env.VERSION }}"
+        git push origin master
