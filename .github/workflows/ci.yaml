@@ -72,4 +72,6 @@ jobs:
          docker tag hello-world-app:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG
          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-         
+     - name: Update Helm chart version
+       run: |
+         sed -i "s/^appVersion:.*/appVersion: \"${{ env.VERSION }}\"/" hello-world-chart/Chart.yaml
