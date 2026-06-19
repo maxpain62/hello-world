@@ -19,7 +19,7 @@ jobs:
 
       - name: check tag
         run: |
-          git tag --sort=-creatordate| head -1
+          git tag --list | head -n 1
         
   #   - name: checkout code
   #     uses: actions/checkout@v7
