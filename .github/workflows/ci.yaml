@@ -18,8 +18,9 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: show output of checkout step
+      - name: check tag
         run: |
+          cd ${{ github.workspace }}
           git tag -l
         
   #   - name: checkout code
