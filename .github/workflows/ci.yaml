@@ -10,11 +10,20 @@ on:
 
 jobs:
   #build the application using maven
-   build:
-     runs-on: ubuntu-latest
-     steps:
+  build:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
      - name: checkout code
        uses: actions/checkout@v7
+
+     - name: Extract tag version
+       id: VERSION
+       run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
   
      - name: Set up JDK
        uses: actions/setup-java@v4
@@ -33,31 +42,9 @@ jobs:
          name: webapp-war
          path: webapp/target/*.war
          if-no-files-found: error
-         
-  #containerize the application using docker
-   containerize:
-  
-     runs-on: ubuntu-latest
-     #copy the war file from the build job to the containerize job
-     needs: build
-  
-     permissions:
-       id-token: write
-       contents: read
-  
-     steps:
-     - name: checkout code
-       uses: actions/checkout@v2
-     
-       #Download the war file from the build job
-     - name: Download WAR artifact
-       uses: actions/download-artifact@v5
-       with:
-         name: webapp-war
-         path: webapp/target
-  
+
      - name: Build Docker image
-       run: docker build -t hello-world-app .
+       run: docker build -t hello-world-app:${{ env.VERSION }} .
   
      #configure the aws credentials to push the docker image to amazon ecr
      - name: Configure AWS Credentials
@@ -82,5 +69,5 @@ jobs:
          REPOSITORY: hello-world-app
          IMAGE_TAG: latest
        run: |
-         docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
-         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+         docker tag hello-world-app:latest $REGISTRY/$REPOSITORY:${{ env.VERSION }}
+         docker push $REGISTRY/$REPOSITORY:${{ env.VERSION }}
