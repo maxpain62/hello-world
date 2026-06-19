@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .values.metadata.labels.app }}-service
   labels:
-    {{ - include "hello-world.labels" . | nindent 4 }}
+    {{ - include "hello-world.matchlabels" . | nindent 4 }}
 spec:
   selector:
       {{ - include "hello-world.matchlabels" . | nindent 6 }}
