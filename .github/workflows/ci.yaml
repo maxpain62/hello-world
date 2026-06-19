@@ -15,11 +15,12 @@ jobs:
   
      steps:
       - name: checkout code
+        id: checkout
         uses: actions/checkout@v4
 
-      - name: check tag
+      - name: show output of checkout step
         run: |
-          git tag --list | head -n 1
+          git tag -l
         
   #   - name: checkout code
   #     uses: actions/checkout@v7
