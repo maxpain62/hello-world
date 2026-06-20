@@ -11,7 +11,7 @@ spec:
   rules:
     - host: gauravtest.store
       http:
-        paths: /
+        paths: "/"
         backend:
           service:
             name: {{ .Values.metadata.labels.app }}-service
