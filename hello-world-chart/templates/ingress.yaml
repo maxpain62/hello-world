@@ -12,7 +12,7 @@ spec:
     - host: gauravtest.store
       http:
         paths:
-          - path: "/"
+          - path: "/webapp"
             pathType: Prefix
             backend:
               service:
