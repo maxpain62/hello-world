@@ -11,9 +11,11 @@ spec:
   rules:
     - host: gauravtest.store
       http:
-        paths: "/"
-        backend:
-          service:
-            name: {{ .Values.metadata.labels.app }}-service
-            port:
-              number: {{ .Values.containers.ports.containerPort }}
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.metadata.labels.app }}-service
+                port:
+                  number: {{ .Values.containers.ports.containerPort }}
