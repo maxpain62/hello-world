@@ -76,7 +76,7 @@ jobs:
      - name: Update Helm chart version
        run: |
          sed -i "s/^appVersion:.*/appVersion: \"${{ env.VERSION }}\"/" hello-world-chart/Chart.yaml
-         sed -i "s/^tag:.*/tag: \"${{ env.VERSION }}\"/" hello-world-chart/values.yaml
+         sed -i "s/tag:.*/tag: \"${{ env.VERSION }}\"/" hello-world-chart/values.yaml
 
      - name: Commit and push updated Helm chart
        run: |
