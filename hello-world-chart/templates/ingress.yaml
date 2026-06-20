@@ -21,3 +21,13 @@ spec:
                 name: {{ .Values.metadata.labels.app }}-service
                 port:
                   number: {{ .Values.containers.ports.containerPort }}
+    - host: webapp.gauravtest.store
+      http:
+        paths:
+          - path: "/webapp"
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.metadata.labels.app }}-service
+                port:
+                  number: {{ .Values.containers.ports.containerPort }}
