@@ -8,6 +8,6 @@ metadata:
 
 containers:
   image: 134448505602.dkr.ecr.ap-south-1.amazonaws.com/hello-world-app
-  tag: v1.1.9
+  tag: "v1.1.10"
   ports:
     containerPort: 8080
