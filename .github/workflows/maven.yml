@@ -31,7 +31,12 @@ jobs:
   
   image-build:
     runs-on: self-hosted
+    needs: build
     steps:
+      - name: download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: webapp.war
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.2.3
