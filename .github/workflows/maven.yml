@@ -29,6 +29,11 @@ jobs:
         cache: maven
     - name: check os
       run: uname -a
+    - name: install maven
+      run: apt update && apt install maven -y && apt clean all
+    - name: build with maven
+      run: mvn clean install
+      
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
