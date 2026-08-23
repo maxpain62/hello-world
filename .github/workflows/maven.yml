@@ -30,7 +30,7 @@ jobs:
     - name: check os
       run: uname -a
     - name: install maven
-      run: apt update && apt install maven -y && apt clean all
+      run: sudo apt update && sudo apt install maven -y && sudo apt clean all
     - name: build with maven
       run: mvn clean install
       
