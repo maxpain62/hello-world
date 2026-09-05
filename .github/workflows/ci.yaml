@@ -5,7 +5,7 @@ name: hello world CI
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   #build the application using maven
