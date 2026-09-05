@@ -4,13 +4,13 @@ name: hello world CI
 
 on:
   push:
-    tags: 
-      - 'v*.*.*'
+    branches:
+      - main
 
 jobs:
   #build the application using maven
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     
     permissions:
       id-token: write
