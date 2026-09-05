@@ -43,7 +43,7 @@ jobs:
          if-no-files-found: error
 
      - name: Build Docker image
-       run: docker build -t hello-world-app:${{ env.VERSION }} .
+       run: docker build -t hello-world-app .
   
      #configure the aws credentials to push the docker image to amazon ecr
      - name: Configure AWS Credentials
